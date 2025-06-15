@@ -15,6 +15,7 @@ class PeliculaController extends Controller
      */
     public function index()
     {
+
         return view('peliculas.index', [
             'peliculas' => Pelicula::all()
         ]);
@@ -69,8 +70,8 @@ class PeliculaController extends Controller
         $peliculas = Pelicula::with('proyecciones.entradas')->where('id', $pelicula->id)->get();
         $entradas = '';
         foreach ($peliculas as $pelicula) {
-            foreach($pelicula->proyecciones as $proyeccion){
-                
+            foreach ($pelicula->proyecciones as $proyeccion) {
+
                 $entradas = $proyeccion->entradas;
             }
         }
@@ -105,7 +106,26 @@ class PeliculaController extends Controller
      */
     public function destroy(Pelicula $pelicula)
     {
-        $pelicula->delete();
+
+        $peliculas = Pelicula::with('proyecciones.entradas')->where('id', $pelicula->id)->get();
+        $entradas = '';
+        foreach ($peliculas as $pelicula) {
+            foreach ($pelicula->proyecciones as $proyeccion) {
+
+                $entradas = $proyeccion->entradas;
+            }
+        }
+
+        $existe = false;
+
+        if ($entradas !== '') {
+            $existe = true;
+        }
+
+        if ($existe === false) {
+
+            $pelicula->delete();
+        }
 
         return redirect()->route('peliculas.index');
     }
