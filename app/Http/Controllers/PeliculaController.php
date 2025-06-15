@@ -6,6 +6,7 @@ use App\Http\Requests\StorePeliculaRequest;
 use App\Http\Requests\UpdatePeliculaRequest;
 use App\Models\Pelicula;
 use Illuminate\Auth\Middleware\RedirectIfAuthenticated;
+use OutOfRangeException;
 
 class PeliculaController extends Controller
 {
@@ -64,8 +65,24 @@ class PeliculaController extends Controller
      */
     public function edit(Pelicula $pelicula)
     {
+
+        $peliculas = Pelicula::with('proyecciones.entradas')->where('id', $pelicula->id)->get();
+        $entradas = '';
+        foreach ($peliculas as $pelicula) {
+            foreach($pelicula->proyecciones as $proyeccion){
+                
+                $entradas = $proyeccion->entradas;
+            }
+        }
+
+        $existe = false;
+
+        if ($entradas !== '') {
+            $existe = true;
+        }
         return view('peliculas.edit', [
             'pelicula' => $pelicula,
+            'existe' => $existe,
         ]);
     }
 
