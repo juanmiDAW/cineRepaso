@@ -13,6 +13,7 @@ Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
 
-    Route::resource('peliculas', PeliculaController::class);
+Route::resource('peliculas', PeliculaController::class);
 
-require __DIR__.'/auth.php';
+
+require __DIR__ . '/auth.php';

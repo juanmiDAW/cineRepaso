@@ -14,6 +14,10 @@
                             <dt class="mb-1 text-gray-500 md:text-lg dark:text-gray-400">
                                 ID
                             </dt>
+{{-- 
+                            @php
+                                dd($pelicula);
+                            @endphp --}}
                             <dd class="text-lg font-semibold">
                                 {{ $pelicula->id }}
                             </dd>
@@ -26,6 +30,15 @@
                                 {{ $pelicula->titulo }}
                             </dd>
                         </div>
+                        <div class="flex flex-col pb-3">
+                            <dt class="mb-1 text-gray-500 md:text-lg dark:text-gray-400">
+                                Numero de entradas vendidas
+                            </dt>
+                            <dd class="text-lg font-semibold">
+                                {{ $entradas }}
+                            </dd>
+                        </div>
+
 
                     </dl>
                 </div>

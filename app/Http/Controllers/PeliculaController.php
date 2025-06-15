@@ -44,8 +44,18 @@ class PeliculaController extends Controller
      */
     public function show(Pelicula $pelicula)
     {
+
+        $peliculas = Pelicula::with('proyecciones.entradas')->where('id', $pelicula->id)->get();
+
+        $entradas = 0;
+        foreach ($peliculas as $pelicula) {
+            foreach ($pelicula->proyecciones as $proyeccion) {
+                $entradas += $proyeccion->entradas->count();
+            }
+        }
         return view('peliculas.show', [
             'pelicula' => $pelicula,
+            'entradas' => $entradas,
         ]);
     }
 
@@ -54,7 +64,7 @@ class PeliculaController extends Controller
      */
     public function edit(Pelicula $pelicula)
     {
-        return view('peliculas.edit',[
+        return view('peliculas.edit', [
             'pelicula' => $pelicula,
         ]);
     }
@@ -68,7 +78,7 @@ class PeliculaController extends Controller
 
         $pelicula->fill($validate);
 
-        $pelicula-> save();
+        $pelicula->save();
 
         return redirect()->route('peliculas.index');
     }
